@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stored Data</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Stored Data</h2>
+    <div id="dataContainer"></div>
+
+    <script>
+        // Retrieve data from local storage
+        let storedData = JSON.parse(localStorage.getItem("formData")) || [];
+
+        // Display data
+        const dataContainer = document.getElementById("dataContainer");
+        if (storedData.length > 0) {
+            const table = document.createElement("table");
+            table.innerHTML = `
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Date & Time</th>
+                    <th>Duration</th>
+                    <th>Action</th>
+                </tr>
+            `;
+            storedData.forEach((data, index) => {
+                const row = table.insertRow();
+                row.innerHTML = `
+                    <td>${data.name}</td>
+                    <td>${data.email}</td>
+                    <td>${data.dateTime}</td>
+                    <td>${data.duration}</td>
+                    <td>
+                        <button onclick="editData(${index})">Edit</button>
+                        <button onclick="deleteData(${index})">Delete</button>
+                    </td>
+                `;
+            });
+            dataContainer.appendChild(table);
+        } else {
+            dataContainer.textContent = "No data stored yet.";
+        }
+
+        function editData(index) {
+            // Retrieve the data to be edited
+            const newData = storedData[index];
+            // Assume you have a form with id="editForm" for editing
+            document.getElementById("editForm").style.display = "block";
+            // Prefill the form with existing data
+            document.getElementById("editName").value = newData.name;
+            document.getElementById("editEmail").value = newData.email;
+            document.getElementById("editDateTime").value = newData.dateTime;
+            document.getElementById("editDuration").value = newData.duration;
+
+            // Handle form submission for editing
+            document.getElementById("editForm").onsubmit = function(event) {
+                event.preventDefault();
+                // Update the stored data with the edited data
+                storedData[index] = {
+                    name: document.getElementById("editName").value,
+                    email: document.getElementById("editEmail").value,
+                    dateTime: document.getElementById("editDateTime").value,
+                    duration: document.getElementById("editDuration").value
+                };
+                // Update the table
+                localStorage.setItem("formData", JSON.stringify(storedData));
+                location.reload(); // Refresh the page to reflect changes
+            };
+        }
+
+        function deleteData(index) {
+            // Remove the data from storedData array
+            storedData.splice(index, 1);
+            // Update the table
+            localStorage.setItem("formData", JSON.stringify(storedData));
+            location.reload(); // Refresh the page to reflect changes
+        }
+    </script>
+
+    <!-- Edit Form (Assuming it's hidden initially) -->
+    <form id="editForm" style="display: none;">
+        <input type="text" id="editName" placeholder="Name" required><br>
+        <input type="email" id="editEmail" placeholder="Email" required><br>
+        <input type="datetime-local" id="editDateTime" required><br>
+        <input type="number" id="editDuration" placeholder="Duration" required><br>
+        <input type="submit" value="Save">
+    </form>
+</body>
+</html>

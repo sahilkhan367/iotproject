@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Form</title>
+</head>
+<body>
+    <h2>Booking Form</h2>
+    <form id="myForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <label for="time">Time:</label><br>
+        <input type="time" id="time" name="time" required><br>
+        <label for="date">Date:</label><br>
+        <input type="date" id="date" name="date" required><br>
+        <label for="duration">Duration:</label><br>
+        <input type="number" id="duration" name="duration" required><br>
+        <a href="qr.html"><button>Bill PAY</button></a>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const name = formData.get("name");
+            const email = formData.get("email");
+            const time = formData.get("time");
+            const date = formData.get("date");
+            const duration = formData.get("duration");
+            const dateTime = `${date} ${time}`;
+
+            const existingData = JSON.parse(localStorage.getItem("formData")) || [];
+
+            const isDuplicate = existingData.some(data => data.dateTime === dateTime);
+            if (isDuplicate) {
+                alert("This date and time slot is not available. Please choose another one.");
+                return;
+            }
+
+            existingData.push({ name, email, dateTime, duration });
+            localStorage.setItem("formData", JSON.stringify(existingData));
+
+            window.location.href = "thankyou.html";
+        });
+    </script>
+</body>
+</html>
