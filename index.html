@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome Page</title>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
+    .welcome-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background-color: #f2f2f2;
+    }
+    .welcome-text {
+        font-size: 50px;
+        margin-bottom: 50px;
+        opacity: 0;
+        animation: slideIn 2.5s forwards;
+    }
+    @keyframes slideIn {
+        0% {
+            opacity: 0;
+            transform: translateY(-100px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .buttons {
+        display: flex;
+        justify-content: center;
+    }
+    .button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        animation: slideInbut 2.5s forwards;
+        text-decoration: none; 
+    }
+    .button.booking {
+        background-color: #0cb8de;
+        color: white;
+    }
+    .button.booked {
+        background-color: #0cb8de;
+        color: white;
+    }
+
+    @keyframes slideInbut {
+        0% {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+</head>
+<body>
+<div class="welcome-container">
+    <div class="welcome-text">Welcome</div>
+    <div class="buttons">
+        <a href="form.html" class="button booking">Booking</a>
+        <a href="storage.html" class="button booking">already booked</a>
+
+    </div>
+</div>
+</body>
+</html>
